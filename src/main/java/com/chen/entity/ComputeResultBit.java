@@ -1,6 +1,7 @@
-package entity;
+package com.chen.entity;
 
 import lombok.Data;
+import lombok.Value;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 public class ComputeResultBit extends BaseEntity{
     // 计算时间
     private Date computeTime;
+
 
     // 是否检查（是否有重复执行了）
     private Boolean checked = true;

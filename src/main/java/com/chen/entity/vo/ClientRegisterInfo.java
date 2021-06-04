@@ -1,4 +1,4 @@
-package entity.vo;
+package com.chen.entity.vo;
 
 import lombok.Data;
 

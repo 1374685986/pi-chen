@@ -1,4 +1,4 @@
-package dao;
+package com.chen.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 

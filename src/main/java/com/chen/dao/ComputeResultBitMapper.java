@@ -1,7 +1,6 @@
-package dao;
+package com.chen.dao;
 
-import entity.ComputeResult;
-import entity.ComputeResultBit;
+import com.chen.entity.ComputeResultBit;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +15,6 @@ public interface ComputeResultBitMapper {
 
     // 查询某个client的计算结果
     List<ComputeResultBit> findNeedChecked(String token);
+
+    int save(ComputeResultBit bit);
 }

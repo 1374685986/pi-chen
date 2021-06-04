@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/bulma/0.8.0/css/bulma.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script crossorigin="anonymous" integrity="sha384-3LaF+GDeugL4KEmnsbb+HuxO42PMnX+W5VYrAF98SHC8Wq47T6D7WpBckxQuazOA"
+        src="https://lib.baomitu.com/react/16.12.0/umd/react.production.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdn.bootcss.com/react-dom/16.12.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/mathjs/6.6.0/math.min.js"></script>
+<script src="compute.js"></script>
+<script type="text/babel">
+
+    const ClientInfo = {
+        clientId: ""
+    };
+
+    const register = () => {
+        axios.get("/register").then(resp => {
+            ClientInfo.clientId = resp.data.data.clientId;
+        });
+    };
+
+    const get = (url, config) => {
+        return axios.get(url, {
+            ...config,
+            headers: {
+                token: ClientInfo.clientId
+            }
+        })
+    };
+
+    const post = (url, data, config) => {
+        return axios.post(url, data, {
+            ...config,
+            headers: {
+                token: ClientInfo.clientId
+            }
+        })
+    };
+
+
+    class App extends React.Component {
+
+        render = () => {
+            return (
+                <div>
+                    <section className="hero">
+                        <div className="hero-body">
+                            <div className="container">
+                                <h1 className="title">
+                                    PI-πShare
+                                </h1>
+                                <div>
+                                    分布式圆周率计算.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section className="hero is-medium">
+                        <div className="hero-head">
+                            <div className="container">
+                                <div className="has-text-centered">
+                                    <Pi/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="hero-head">
+                            <div className="container">
+
+
+                                <section className="level">
+                                    <section className="level-item">
+                                        <ClientsInfo/>
+                                    </section>
+                                    <section className="level-item">
+                                    </section>
+                                </section>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            )
+        }
+    }
+
+    class Pi extends React.Component {
+
+        computeInfo = {
+            bit: "?",
+            result: "?"
+        };
+
+        constructor() {
+            super();
+            this.state = this.computeInfo;
+        }
+
+
+        componentDidMount() {
+
+            setInterval(() => {
+                if (!ClientInfo.clientId) {
+                    register();
+                }
+                get("/getJob").then(resp => {
+                    const bit = resp.data.data.bit;
+                    //先更新位数
+                    this.setState({
+                        bit: bit,
+                        result: "?"
+                    });
+                    return Promise.resolve(bit);
+                }).then((bit) => {
+                    const result = pi(bit);
+                    return Promise.resolve({bit: bit, result: result});
+                }).then((info) => {
+                    this.setState({
+                        ...info
+                    });
+                    post("/postJob", {
+                        ...info
+                    })
+                });
+            }, 5000);
+        }
+
+        render = () => {
+            return (
+                <div>
+                    <div style={{
+                        fontSize: '30px'
+                    }
+                    }>正在计算第&nbsp; {this.state.bit} &nbsp;位
+                    </div>
+                    <div style={{
+                        display: "inline"
+                    }}>计算结果
+                        <div style={{
+                            fontSize: '5em',
+                            display: "inline"
+                        }}> {this.state.result} </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    class ClientsInfo extends React.Component {
+
+        info = {
+            num: "?"
+        };
+
+        constructor() {
+            super();
+            this.state = this.info;
+        }
+
+
+        clientsInfo = () => {
+            get("/clientsInfo").then(resp => {
+                console.log(resp);
+                const num = resp.data.data.clients;
+                this.setState({
+                    num: num
+                });
+            })
+        };
+
+        componentDidMount() {
+            setInterval(()=>{
+                this.clientsInfo()
+            }, 15 * 1000);
+        }
+
+        render = () => {
+            return (
+                <div>
+                    <section className="section">
+                        <div style={
+                            {
+                                display: "inline",
+                                fontSize: '18px'
+                            }
+                        }>
+                            在线客户端
+                        </div>
+                        <div style={
+                            {
+                                display: "inline",
+                                fontSize: '3em'
+                            }
+                        }>&nbsp;&nbsp;{this.state.num}</div>
+                        &nbsp;
+                    </section>
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    );
+</script>
+<style>
+</style>
+</html>

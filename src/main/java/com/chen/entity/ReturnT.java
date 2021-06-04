@@ -1,24 +1,24 @@
-package entity;
+package com.chen.entity;
 
 /*
 * 返回类
 * */
 public class ReturnT {
-    private static final int SUCCESS_CODE = 200;
-    private static final int ERROR_CODE = 500;
-    private static final String SUCCESS_MSG ="SUCCESS";
+    public static final int SUCCESS_CODE = 200;
+    public static final int ERROR_CODE = 500;
+    public static final String SUCCESS_MSG ="SUCCESS";
 
     private int code;
     private String msg;
     private Object data;
 
-    private ReturnT(){
+    public ReturnT(){
     }
-    private ReturnT(int code,String msg){
+    public ReturnT(int code,String msg){
         this.code = code;
         this.msg = msg;
     }
-    private ReturnT(int code,String msg,Object data){
+    public ReturnT(int code, String msg, Object data){
         this.msg=msg;
         this.code=code;
         this.data=data;

@@ -1,9 +1,9 @@
-package dao;
+package com.chen.dao;
 
-import entity.ComputeRecord;
-import entity.ComputeResult;
-import entity.ComputeResultBit;
-import entity.vo.ComputeJobResult;
+import com.chen.entity.ComputeRecord;
+import com.chen.entity.ComputeResult;
+import com.chen.entity.ComputeResultBit;
+import com.chen.entity.vo.ComputeJobResult;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

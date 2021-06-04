@@ -23,16 +23,37 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="c7151f8a-27a0-478b-a936-d13762a953c7">
-        <schema name="pi" object-types="table, view, procedure, function" />
+        <schema name="mysql" object-types="table, view, function" />
+        <schema name="pi" object-types="table, view, procedure, function, constraint, index, column, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="c7151f8a-27a0-478b-a936-d13762a953c7">
-      <console name="Connection" type="STANDARD" schema="mysql" session="Main" />
+      <console name="Connection" type="STANDARD" schema="mysql" session="Main"><![CDATA[/*
+select * from `pi`.compute_result_bit
+where checked =1 
+order by compute_time desc limit 10*/
+
+/*
+select * from `pi`.compute_result_bit
+order by digit desc limit 1*/
+/*
+
+insert into `pi`.compute_result_bit(checked,compute_time,digit,result)
+values ()*/
+
+/*
+select * from `pi`.compute_result
+order by end_index limit 1;*/
+
+/*
+select crb.id,crb.checked,crb.compute_time,crb.digit,crb.result  from `pi`.compute_result_bit crb  join
+`pi`.compute_record crd 
+where crb.checked = true and crd.token = #{token};*/]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

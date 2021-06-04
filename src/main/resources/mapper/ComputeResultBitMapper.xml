@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.dao.ComputeResultBitMapper">
+    <select id="findTop10ByCheckedOrderByComputeTime" resultType="com.chen.entity.ComputeResultBit">
+        select
+        checked as checked,
+        compute_time as computeTime,
+        digit as digit,
+        result as result
+        from `pi`.compute_result_bit
+        where checked =1
+        order by compute_time desc limit 10
+    </select>
+    <select id="findTopByDigit" parameterType="Long" resultType="com.chen.entity.ComputeResultBit">
+        select
+        checked as checked,
+        compute_time as computeTime,
+        digit as digit,
+        result as result
+        from `pi`.compute_result_bit
+        where digit=#{digit}
+    </select>
+    <insert id="save" parameterType="com.chen.entity.ComputeResultBit">
+        insert into `pi`.compute_result_bit(checked,compute_time,digit,result)
+        values (#{checked},#{computeTime},#{digit},#{result})
+    </insert>
+    <select id="findNeedChecked" resultType="com.chen.entity.ComputeResultBit" parameterType="String">
+        select crb.id,crb.checked,crb.compute_time,crb.digit,crb.result  from `pi`.compute_result_bit crb  join
+        `pi`.compute_record crd
+        where crb.checked = true and crd.token = #{token};
+    </select>
+</mapper>
