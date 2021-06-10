@@ -53,7 +53,18 @@ order by end_index limit 1;*/
 /*
 select crb.id,crb.checked,crb.compute_time,crb.digit,crb.result  from `pi`.compute_result_bit crb  join
 `pi`.compute_record crd 
-where crb.checked = true and crd.token = #{token};*/]]></console>
+where crb.checked = true and crd.token = #{token};*/
+
+/*
+select max_bits as maxBits
+from `pi`.compute_info
+order by max_bits 
+limit 1*/
+
+
+/*
+update `pi`.compute_info
+set max_bits = */]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

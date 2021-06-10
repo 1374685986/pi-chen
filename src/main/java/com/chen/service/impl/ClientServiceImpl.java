@@ -29,6 +29,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void heart(String clientId) {
+        // 在缓存中判断客户端是否还在线，5秒的过期时间
         clients.getIfPresent(clientId);
     }
 

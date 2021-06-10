@@ -25,13 +25,16 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
 
     private static final Character[] HEX_NUM = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
+    // 位数
     private ConcurrentLinkedDeque<Long> jobs = new ConcurrentLinkedDeque<>();
 
+    // 任务队列
     private ConcurrentLinkedDeque<ComputeJob> jobss = new ConcurrentLinkedDeque<>();
 
+    // 计算结果
     private Set<ComputeJobResult> results = new HashSet<>();
 
-
+    // 计算
     private ComputeResultHandler computeResultHandler;
 
     @Autowired
@@ -51,6 +54,8 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
         fillJob();
     }
 
+
+    // 获取任务，synchronized 同步获得
     @Override
     public synchronized ComputeJobDto dispense() {
         if (jobs.isEmpty()) fillJob();

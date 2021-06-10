@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.chen.service.ClientService;
-import com.chen.service.ComputeDispenseService;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -25,12 +24,16 @@ public class ComputeController {
     @RequestMapping("/register")
     public ReturnT register(){
         System.out.println("====注册====");
-        ClientRegisterInfo clientRegisterInfo = clientService.register();
+        ClientRegisterInfo clientRegisterInfo = clientService.register(); //包含客户端的token
+        // 将成功消息和token发回浏览器保存
         return new ReturnT(ReturnT.SUCCESS_CODE,ReturnT.SUCCESS_MSG,clientRegisterInfo);
     }
+
     @RequestMapping("/getJob")
     public  ReturnT getJob(@RequestHeader("token") String clientId){
+        // 检测客户端是否还在线
         clientService.heart(clientId);
+        // 获取任务
         return new ReturnT(ReturnT.SUCCESS_CODE,ReturnT.SUCCESS_MSG,computeDispenseServiceImpl.dispense());
     }
 
