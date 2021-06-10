@@ -5,7 +5,6 @@ import com.chen.entity.vo.ClientRegisterInfo;
 import com.chen.entity.vo.ComputeJobResult;
 import com.chen.service.impl.ComputeDispenseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +20,14 @@ public class ComputeController {
     @Autowired
     private ClientService clientService;
 
+
+    /*
+    *   Realize client register;
+    * */
     @RequestMapping("/register")
     public ReturnT register(){
         System.out.println("====注册====");
-        ClientRegisterInfo clientRegisterInfo = clientService.register(); //包含客户端的token
+        ClientRegisterInfo clientRegisterInfo = clientService.register(); //包含客户端的token,just clientId
         // 将成功消息和token发回浏览器保存
         return new ReturnT(ReturnT.SUCCESS_CODE,ReturnT.SUCCESS_MSG,clientRegisterInfo);
     }

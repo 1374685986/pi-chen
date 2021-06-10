@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class ClientServiceImpl implements ClientService {
 
+
+    // build a cache to store clientInfo
     private final Cache<String,String> clients =
             CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build();
 
