@@ -22,7 +22,7 @@ public class ComputeController {
 
 
     /*
-    *   Realize client register;
+    *   Realize client register
     * */
     @RequestMapping("/register")
     public ReturnT register(){
@@ -40,8 +40,10 @@ public class ComputeController {
         return new ReturnT(ReturnT.SUCCESS_CODE,ReturnT.SUCCESS_MSG,computeDispenseServiceImpl.dispense());
     }
 
+    // submit computed task
     @RequestMapping("postJob")
     public  ReturnT postJob(@RequestBody ComputeJobResult computeJobResult,@RequestHeader("token") String clientId){
+        // ensure whether online
         clientService.heart(clientId);
         computeJobResult.setProcessId(clientId);
         computeDispenseServiceImpl.reclaim(computeJobResult);

@@ -9,7 +9,6 @@ import com.chen.entity.ComputeResult;
 import com.chen.entity.ComputeResultBit;
 import com.chen.entity.vo.ComputeJobDto;
 import com.chen.entity.vo.ComputeJobResult;
-import lombok.Synchronized;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,7 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
 
     public static int JOB_SIZE = 15; // 可输入
 
+    // liu zhe ji suan 10 jin zhi
     private static final Character[] HEX_NUM = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
     // 位数
@@ -45,6 +45,7 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
 
     @Autowired
     private ComputeResultBitMapper computeResultBitMapper;
+
 
     private HashMap<String, ComputePool> computePool = new HashMap<>();
 

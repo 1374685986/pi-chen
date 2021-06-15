@@ -21,8 +21,8 @@
         where digit=#{digit}
     </select>
     <insert id="save" parameterType="com.chen.entity.ComputeResultBit">
-        insert into `pi`.compute_result_bit(checked,compute_time,digit,result)
-        values (#{checked},#{computeTime},#{digit},#{result})
+        insert into `pi`.compute_result_bit(compute_time,digit,result)
+        values (#{computeTime},#{digit},#{result})
     </insert>
     <select id="findNeedChecked" resultType="com.chen.entity.ComputeResultBit" parameterType="String">
         select crb.id,crb.checked,crb.compute_time,crb.digit,crb.result  from `pi`.compute_result_bit crb  join

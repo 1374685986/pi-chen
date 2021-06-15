@@ -77,9 +77,18 @@ public class ComputeResultHandler {
                 record.setToken(result.getProcessId());
                 record.setComputeDate(new Date());
                 record.setResult(result.getResult());
-
                 records.add(record);
                 target.setRecords(records);
+
+                target.setDigit(result.getBit());
+
+                System.out.println("=="+target.getResult()+"=="
+                +target.getRecords()+"=="
+                +target.getComputeTime()+"=="
+                +target.getChecked()+"=="
+                +target.getDigit()+"=="
+                +target.getId()+"==");
+
                 computeResultBitMapper.save(target);
             }
         } catch (Exception e) {
