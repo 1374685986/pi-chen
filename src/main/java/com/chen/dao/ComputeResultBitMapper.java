@@ -17,4 +17,7 @@ public interface ComputeResultBitMapper {
     List<ComputeResultBit> findNeedChecked(String token);
 
     int save(ComputeResultBit bit);
+
+
+    int update(ComputeResultBit bit);
 }

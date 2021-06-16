@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
-public class ComputeResultHandler {
+public class ComputeResultHandler { // 计算结果处理
     private final LinkedBlockingDeque<ComputeJobResult> queue = new LinkedBlockingDeque<>();
 
     @Autowired
@@ -79,17 +79,14 @@ public class ComputeResultHandler {
                 record.setResult(result.getResult());
                 records.add(record);
                 target.setRecords(records);
-
                 target.setDigit(result.getBit());
+                if (!target.getDigit().equals(computeResultBitMapper.findTopByDigit(target.getDigit()).getDigit())) {
+                    computeResultBitMapper.save(target);
+                }
+                else{
+                    computeResultBitMapper.update(target);
+                }
 
-                System.out.println("=="+target.getResult()+"=="
-                +target.getRecords()+"=="
-                +target.getComputeTime()+"=="
-                +target.getChecked()+"=="
-                +target.getDigit()+"=="
-                +target.getId()+"==");
-
-                computeResultBitMapper.save(target);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -32,6 +32,7 @@ public class ComputeController {
         return new ReturnT(ReturnT.SUCCESS_CODE,ReturnT.SUCCESS_MSG,clientRegisterInfo);
     }
 
+
     @RequestMapping("/getJob")
     public  ReturnT getJob(@RequestHeader("token") String clientId){
         // 检测客户端是否还在线

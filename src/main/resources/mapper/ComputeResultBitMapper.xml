@@ -29,4 +29,10 @@
         `pi`.compute_record crd
         where crb.checked = true and crd.token = #{token};
     </select>
+    <update id="update" parameterType="com.chen.entity.ComputeResultBit">
+        update `pi`.compute_result_bit
+        set compute_time=#{computeTime}
+        ,result = #{result}
+        where digit = #{digit}
+    </update>
 </mapper>

@@ -20,10 +20,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 @Service("computeDispenseServiceImpl")
 public class ComputeDispenseServiceImpl implements ComputeDispenseService {
 
-    public static int JOB_SIZE = 15; // 可输入
-
-    // liu zhe ji suan 10 jin zhi
-    private static final Character[] HEX_NUM = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+    public static int JOB_SIZE = 4; // 定义计算到多大，需要重新进行添加任务
 
     // 位数
     private ConcurrentLinkedDeque<Long> jobs = new ConcurrentLinkedDeque<>();
@@ -47,12 +44,14 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
     private ComputeResultBitMapper computeResultBitMapper;
 
 
+    // 计算池
     private HashMap<String, ComputePool> computePool = new HashMap<>();
 
-    public ComputeDispenseServiceImpl(ComputeResultHandler computeResultHandler,ComputeResultMapper computeResultMapper){
+    public ComputeDispenseServiceImpl(ComputeResultHandler computeResultHandler
+            ,ComputeResultMapper computeResultMapper){
         this.computeResultMapper=computeResultMapper;
         this.computeResultHandler=computeResultHandler;
-        fillJob();
+        fillJob();//初始化分配任务
     }
 
 
@@ -69,11 +68,9 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
     public synchronized void init(String token) {
         List<ComputeResultBit> resultBits = computeResultBitMapper.findNeedChecked(token);
         if (resultBits != null && resultBits.size() > 0){
-
             ComputePool pool = new ComputePool();
             pool.setToken(token);
             var bits = new ArrayDeque<Long>();
-
             for(var i:resultBits){
                 bits.add(i.getDigit());
             }
@@ -88,7 +85,7 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
             fillJob();
         }
         ComputeJobDto job = new ComputeJobDto();
-        if (computePool.containsKey(tokenId)){
+        if (computePool.containsKey(tokenId)){ // 计算池中存在当前客户端
             var result  = computePool.get(tokenId);
             Long bit = result.getBitPool().removeFirst();
             result.getBitPool().add(bit);
@@ -148,6 +145,7 @@ public class ComputeDispenseServiceImpl implements ComputeDispenseService {
 
     @Override
     public synchronized void fillJob() {
+        // 从计算结果表中找到最后一位
         ComputeResult result = computeResultMapper.findTopByOrderByEndIndexDesc();
         long startIndex  = 0L;
         if (result != null) {
